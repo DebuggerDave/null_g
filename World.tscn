@@ -1,12 +1,137 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://TileMap.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Gravity/SouthGravity.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Gravity/PointGravity.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Gravity/NorthGravity.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Gravity/Gravity.gd" type="Script" id=6]
+[ext_resource path="res://Gravity/EastGravity.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Gravity/WestGravity.tscn" type="PackedScene" id=8]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 32, 17 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 288, 17 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 32, 17 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 288, 17 )
+
+[sub_resource type="GDScript" id=5]
+script/source = "extends Area2D
+
+
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+"
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 17, 256 )
+
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 17, 256 )
 
 [node name="World" type="Node2D"]
 
-[node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 320, 504 )
-
 [node name="TileMap" parent="." instance=ExtResource( 2 )]
-tile_data = PoolIntArray( 1, 1073741824, 0, 2, 1073741824, 0, 3, 1073741824, 0, 4, 1073741824, 0, 5, 1073741824, 0, 6, 1073741824, 0, 7, 1073741824, 0, 8, 1073741824, 0, 9, 1073741824, 0, 10, 1073741824, 0, 11, 1073741824, 0, 12, 1073741824, 0, 13, 1073741824, 0, 14, 1073741824, 0, 15, 1073741824, 0, 16, 1073741824, 0, 17, 1073741824, 0, 18, 1073741824, 0, 65536, -536870912, 0, 65555, -2147483648, 0, 131072, -536870912, 0, 131091, -2147483648, 0, 196608, -536870912, 0, 196627, -2147483648, 0, 262144, -536870912, 0, 262163, -2147483648, 0, 327680, -536870912, 0, 327699, -2147483648, 0, 393216, -536870912, 0, 393235, -2147483648, 0, 458752, -536870912, 0, 458771, -2147483648, 0, 524288, -536870912, 0, 524307, -2147483648, 0, 589824, -536870912, 0, 589843, -2147483648, 0, 655360, -536870912, 0, 655379, -2147483648, 0, 720896, -536870912, 0, 720915, -2147483648, 0, 786432, -536870912, 0, 786451, -2147483648, 0, 851968, -536870912, 0, 851987, -2147483648, 0, 917504, -536870912, 0, 917523, -2147483648, 0, 983040, -536870912, 0, 983059, -2147483648, 0, 1048576, -536870912, 0, 1048595, -2147483648, 0, 1114113, 536870912, 0, 1114114, 536870912, 0, 1114115, 536870912, 0, 1114116, 536870912, 0, 1114117, 536870912, 0, 1114118, 536870912, 0, 1114119, 536870912, 0, 1114120, 536870912, 0, 1114121, 536870912, 0, 1114122, 536870912, 0, 1114123, 536870912, 0, 1114124, 536870912, 0, 1114125, 536870912, 0, 1114126, 536870912, 0, 1114127, 536870912, 0, 1114128, 536870912, 0, 1114129, 536870912, 0, 1114130, 536870912, 0 )
+tile_data = PoolIntArray( 1, 1610612736, 0, 2, 1610612736, 0, 3, 1610612736, 0, 4, 1610612736, 0, 5, 1610612736, 0, 6, 1610612736, 0, 7, 1610612736, 0, 8, 1610612736, 0, 9, 1610612736, 0, 10, 1610612736, 0, 11, 1610612736, 0, 12, 1610612736, 0, 13, 1610612736, 0, 14, 1610612736, 0, 15, 1073741824, 0, 16, 1073741824, 0, 17, 1073741824, 0, 18, 1073741824, 0, 65536, -536870912, 0, 65555, -2147483648, 0, 131072, -536870912, 0, 131091, -2147483648, 0, 196608, -536870912, 0, 196627, -2147483648, 0, 262144, -536870912, 0, 262147, 0, 1, 262148, 0, 0, 262149, 0, 0, 262150, -1610612736, 1, 262163, -2147483648, 0, 327680, -536870912, 0, 327683, -1073741824, 1, 327684, 1610612736, 0, 327685, 1610612736, 0, 327686, 1610612736, 1, 327699, -2147483648, 0, 393216, -536870912, 0, 393235, -2147483648, 0, 458752, -536870912, 0, 458771, -2147483648, 0, 524288, -536870912, 0, 524307, -2147483648, 0, 589824, -536870912, 0, 589831, 0, 1, 589832, 0, 0, 589833, 0, 0, 589834, 0, 0, 589835, 0, 0, 589836, 0, 0, 589837, 0, 0, 589838, -1610612736, 1, 589843, -2147483648, 0, 655360, -536870912, 0, 655367, -1073741824, 1, 655368, 1610612736, 0, 655369, 1610612736, 0, 655370, 1610612736, 0, 655371, 1610612736, 0, 655372, 1610612736, 0, 655373, 1610612736, 0, 655374, 1610612736, 1, 655379, -2147483648, 0, 720896, -536870912, 0, 720915, -2147483648, 0, 786432, -536870912, 0, 786451, -2147483648, 0, 851968, -536870912, 0, 851987, -2147483648, 0, 917504, -536870912, 0, 917523, -2147483648, 0, 983040, -536870912, 0, 983059, -2147483648, 0, 1048576, -536870912, 0, 1048595, -2147483648, 0, 1114113, 536870912, 0, 1114114, 536870912, 0, 1114115, 536870912, 0, 1114116, 536870912, 0, 1114117, 536870912, 0, 1114118, 536870912, 0, 1114119, 536870912, 0, 1114120, 536870912, 0, 1114121, 536870912, 0, 1114122, 536870912, 0, 1114123, 0, 0, 1114124, 536870912, 0, 1114125, 536870912, 0, 1114126, 536870912, 0, 1114127, 536870912, 0, 1114128, 536870912, 0, 1114129, 536870912, 0, 1114130, 536870912, 0 )
+
+[node name="SouthGravity" parent="TileMap" instance=ExtResource( 3 )]
+position = Vector2( 160, 146 )
+script = ExtResource( 6 )
+
+[node name="CollisionShape2D" parent="TileMap/SouthGravity" index="0"]
+position = Vector2( 0, -3 )
+shape = SubResource( 1 )
+
+[node name="SouthGravity2" parent="TileMap" instance=ExtResource( 3 )]
+script = ExtResource( 6 )
+
+[node name="CollisionShape2D" parent="TileMap/SouthGravity2" index="0"]
+position = Vector2( 320, 559 )
+shape = SubResource( 2 )
+
+[node name="PointGravity" parent="TileMap" instance=ExtResource( 4 )]
+position = Vector2( 128, 160 )
+rotation = -1.56947
+gravity_vec = Vector2( 0, 0 )
+script = ExtResource( 6 )
+
+[node name="PointGravity3" parent="TileMap" instance=ExtResource( 4 )]
+position = Vector2( 128, 160 )
+rotation = 3.14159
+gravity_vec = Vector2( 0, 0 )
+script = ExtResource( 6 )
+
+[node name="PointGravity4" parent="TileMap" instance=ExtResource( 4 )]
+position = Vector2( 192, 160 )
+rotation = -4.71239
+gravity_vec = Vector2( 0, 0 )
+script = ExtResource( 6 )
+
+[node name="PointGravity2" parent="TileMap" instance=ExtResource( 4 )]
+position = Vector2( 192, 160 )
+gravity_vec = Vector2( 0, 0 )
+script = ExtResource( 6 )
+
+[node name="NorthGravity" parent="TileMap" instance=ExtResource( 5 )]
+position = Vector2( 160, 176 )
+script = ExtResource( 6 )
+
+[node name="CollisionShape2D" parent="TileMap/NorthGravity" index="0"]
+shape = SubResource( 3 )
+
+[node name="NorthGravity2" parent="TileMap" instance=ExtResource( 5 )]
+position = Vector2( 319, 16 )
+script = ExtResource( 6 )
+
+[node name="CollisionShape2D" parent="TileMap/NorthGravity2" index="0"]
+position = Vector2( 1, 1 )
+shape = SubResource( 4 )
+
+[node name="EastGravity" parent="TileMap" instance=ExtResource( 7 )]
+position = Vector2( 625, 289 )
+script = SubResource( 5 )
+
+[node name="CollisionShape2D" parent="TileMap/EastGravity" index="0"]
+position = Vector2( -2, -1 )
+shape = SubResource( 6 )
+
+[node name="WestGravity" parent="TileMap" instance=ExtResource( 8 )]
+position = Vector2( 15, 286 )
+rotation = -1.74846e-07
+
+[node name="CollisionShape2D" parent="TileMap/WestGravity" index="0"]
+position = Vector2( 2, 2 )
+shape = SubResource( 7 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 161, 113 )
+rotation = -6.28319
+
+[editable path="TileMap/SouthGravity"]
+
+[editable path="TileMap/SouthGravity2"]
+
+[editable path="TileMap/NorthGravity"]
+
+[editable path="TileMap/NorthGravity2"]
+
+[editable path="TileMap/EastGravity"]
+
+[editable path="TileMap/WestGravity"]

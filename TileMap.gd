@@ -1,14 +1,15 @@
 extends TileMap
 
-
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	pass
+#	var cells: Array = get_used_cells()
+#	for cell in cells:
+#		var tileIndex: int = get_cellv(cell)
+#		var gravArea := Area2D.new()
+#		gravArea.set_owner(self)
+#		var gravCollision := CollisionShape2D.new()
+#		gravCollision.set_shape(tile_set.tile_get_shape(tileIndex, 0))
+#		gravCollision.set_owner(gravArea)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

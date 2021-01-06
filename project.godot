@@ -19,6 +19,12 @@ config/name="null_g"
 run/main_scene="res://World.tscn"
 config/icon="res://icon.png"
 
+[display]
+
+window/size/width=512
+window/size/height=288
+window/stretch/shrink=2.0
+
 [input]
 
 move_right={
