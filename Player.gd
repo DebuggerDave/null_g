@@ -1,47 +1,78 @@
-extends RigidBody2D
+extends KinematicBody2D
 
-const MOVE_FORCE: int = 100
-const JUMP_IMPULSE: int = 100
-const MASS: int = 1
+const MAX_ACCELERATION: int = 100
+const MAX_SPEED: int = 1000
+const JUMP_DISTANCE: int = 10
+const MAX_SNAP_ANGLE: int = 45
 
 var tile := preload("res://TileMap.gd")
-var grounded := true
-var contactBodies: Array = []
-var gravVec := Vector2(0, 0)
+var grounded := false
+var floorNormal := Vector2()
+var velocity := Vector2(0, 100)
 	
-	#var collision: KinematicCollision2D = move_and_collide(velocity)
-#	if (collision):
-#		print(collision.get_collider().world_to_map())
-#	if (collision && (collision.get_collider() is tile)):
-#		grounded = true
-#		floorNormal = collision.get_normal()
-#		velocity -= velocity * floorNormal.abs()
-
-func _ready():
-	self.connect("body_entered", self, "_on_collision_enter")
-	self.connect("body_exited", self, "_on_collision_exit")
-
-func _on_collision_enter(body: Node):
-	contactBodies.push_back(body)
-	grounded = true
-	
-func _on_collision_exit(body: Node):
-	contactBodies.erase(body)
-	if (contactBodies.size() == 0):
-		grounded = false
-
-var velocity
-var force
-
-func _integrate_forces(state: Physics2DDirectBodyState):
-	gravVec = state.get_total_gravity()
-	force = get_applied_force()
-	velocity = state.get_linear_velocity()
-	
-func _physics_process(delta: float):
-	var impulse := Vector2(0, 0)
+func _physics_process(delta: float) -> void:
 	if grounded:
-		var moveDir := Vector2(0, 0)
+		get_new_velocity(delta)
+		
+	var movement: Vector2 = velocity * delta
+	var lastMovement: Vector2 = movement
+	var moved: bool = not movement.is_equal_approx(Vector2())
+	var collision: KinematicCollision2D = null
+	
+	while (not movement.is_equal_approx(Vector2())):
+		collision = move_and_collide(movement)
+		lastMovement = movement
+		if (tile_collision(collision)):
+			grounded = true
+			floorNormal = collision.get_normal()
+			movement -= collision.get_travel() * movement.normalized()
+			movement -= movement * floorNormal.abs()
+			velocity -= velocity * floorNormal.abs()
+		else:
+			movement = Vector2()
+			
+	if (moved && not tile_collision(collision)):
+		var floorQueryMag: float = ceil(tan(MAX_SNAP_ANGLE) * lastMovement.length())
+		var floorQueryDir: Vector2 = lastMovement.rotated(floorNormal.angle_to(lastMovement)).normalized()
+		var floorQuery: Vector2 = floorQueryDir * floorQueryMag
+		var testCollision: KinematicCollision2D = move_and_collide(floorQuery, true, true, true)
+		
+		if (tile_collision(testCollision)):
+			var moveAngle = floorNormal.angle_to(testCollision.get_normal())
+			if (moveAngle < MAX_SNAP_ANGLE):
+				move_and_collide(floorQuery)
+				floorNormal = testCollision.get_normal()
+				velocity = velocity.rotated(moveAngle)
+				grounded = true
+			else:
+				grounded = false
+				floorNormal = Vector2()
+		else:
+			grounded = false
+			floorNormal = Vector2()
+	
+func aggregate_floor_normals(floorNormal: Vector2) -> Vector2:
+	var aggregate := Vector2(floorNormal.x, floorNormal.y)
+	var original_direction: Vector2 = floorNormal * -1
+	
+	for deg in range(90, 360, 90):
+		var rads: float = deg * PI / 180
+		var query_direction: Vector2 = original_direction.rotated(rads)
+		var testCollision: KinematicCollision2D = move_and_collide(query_direction, true, true, true)
+		if (tile_collision(testCollision)):
+			aggregate += testCollision.get_normal()
+		
+	return aggregate
+			
+func tile_collision(collision: KinematicCollision2D) -> bool:
+	return (
+		collision &&
+		(collision.get_collider() is tile)
+	)
+
+func get_new_velocity(delta: float) -> void:
+		var moveDir := Vector2()
+		
 		if Input.is_action_pressed("move_right"):
 			moveDir.x += 1
 		if Input.is_action_pressed("move_left"):
@@ -51,12 +82,8 @@ func _physics_process(delta: float):
 		if Input.is_action_pressed("move_up"):
 			moveDir.y -= 1
 		
-		var moveTransform : Vector2 = Vector2(1, 1)
-		if (not gravVec.is_equal_approx(Vector2(0, 0))):
-			moveTransform = gravVec.normalized().rotated(PI/2).abs()
-		impulse += moveDir * moveTransform * MOVE_FORCE * delta
+		var moveTransform: Vector2 = floorNormal.rotated(PI/2).abs()
+		velocity += moveDir * moveTransform * MAX_ACCELERATION * delta
 			
 		if Input.is_action_just_pressed("jump"):
-			impulse += gravVec.normalized() * -1 * JUMP_IMPULSE
-		
-		apply_central_impulse(impulse)
+			velocity += aggregate_floor_normals(floorNormal) * JUMP_DISTANCE / delta

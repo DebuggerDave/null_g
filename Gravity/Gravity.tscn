@@ -1,4 +1,0 @@
-[gd_scene format=2]
-
-[node name="AreaGravity" type="Area2D"]
-space_override = 3
