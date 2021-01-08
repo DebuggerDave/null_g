@@ -23,6 +23,7 @@ config/icon="res://icon.png"
 
 window/size/width=512
 window/size/height=288
+window/stretch/shrink=3.0
 
 [input]
 
@@ -60,6 +61,7 @@ move_down={
 [physics]
 
 2d/default_gravity=0
+2d/default_gravity_vector=Vector2( 0, 0 )
 
 [rendering]
 

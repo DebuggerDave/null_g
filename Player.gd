@@ -3,54 +3,89 @@ extends KinematicBody2D
 const MAX_ACCELERATION: int = 100
 const MAX_SPEED: int = 1000
 const JUMP_DISTANCE: int = 10
-const MAX_SNAP_ANGLE: int = 45
+const MAX_SNAP_ANGLE: float = PI / 4
 
-var tile := preload("res://TileMap.gd")
+var tileMap := preload("res://TileMap.gd")
 var grounded := false
 var floorNormal := Vector2()
 var velocity := Vector2(0, 100)
+var lastCollision := Vector2()
+var lastMovement := Vector2()
+var rayCast := RayCast2D.new()
+
+func _init():
+	rayCast.set_name("floorQuery")
+	add_child(rayCast)
+	rayCast.set_enabled(true)
+	
 	
 func _physics_process(delta: float) -> void:
 	if grounded:
 		get_new_velocity(delta)
 		
 	var movement: Vector2 = velocity * delta
-	var lastMovement: Vector2 = movement
 	var moved: bool = not movement.is_equal_approx(Vector2())
 	var collision: KinematicCollision2D = null
 	
 	while (not movement.is_equal_approx(Vector2())):
-		collision = move_and_collide(movement)
 		lastMovement = movement
-		if (tile_collision(collision)):
+		collision = move_and_collide(movement)
+		if (collision && (collision.get_collider() is tileMap)):
 			grounded = true
+			lastCollision = collision.position
 			floorNormal = collision.get_normal()
-			movement -= collision.get_travel() * movement.normalized()
+			movement = collision.get_remainder()
 			movement -= movement * floorNormal.abs()
 			velocity -= velocity * floorNormal.abs()
 		else:
 			movement = Vector2()
+			var foundFloor: bool = false
+			var space_state: Physics2DDirectSpaceState = get_world_2d().get_direct_space_state()
 			
-	if (moved && not tile_collision(collision)):
-		var floorQueryMag: float = ceil(tan(MAX_SNAP_ANGLE) * lastMovement.length())
-		var floorQueryDir: Vector2 = lastMovement.rotated(floorNormal.angle_to(lastMovement)).normalized()
-		var floorQuery: Vector2 = floorQueryDir * floorQueryMag
-		var testCollision: KinematicCollision2D = move_and_collide(floorQuery, true, true, true)
-		
-		if (tile_collision(testCollision)):
-			var moveAngle = floorNormal.angle_to(testCollision.get_normal())
-			if (moveAngle < MAX_SNAP_ANGLE):
-				move_and_collide(floorQuery)
-				floorNormal = testCollision.get_normal()
-				velocity = velocity.rotated(moveAngle)
-				grounded = true
+			# Look down
+			var rayEnd: Vector2 = lastCollision + lastMovement
+			var rayStart: Vector2 = rayEnd + floorNormal
+			rayCast.set_cast_to(rayEnd - get_position())
+			rayCast.position = rayStart - get_position()
+			rayCast.force_raycast_update()
+			if (rayCast.is_colliding() && (rayCast.get_collider() is tileMap)):
+				lastCollision = rayCast.get_collision_point()
+				floorNormal = rayCast.get_collision_normal()
+				foundFloor = true
 			else:
-				grounded = false
-				floorNormal = Vector2()
-		else:
-			grounded = false
-			floorNormal = Vector2()
-	
+				pass
+			
+			# Look back
+			rayEnd = lastCollision
+			rayStart = lastCollision + lastMovement
+			rayCast.set_cast_to(rayEnd - get_position())
+			rayCast.position = rayStart - get_position()
+			rayCast.force_raycast_update()
+			if (rayCast.is_colliding() && (not foundFloor)):
+				var rotation: float = floorNormal.angle_to(rayCast.get_collision_normal())
+				if ((rayCast.get_collider() is tileMap) && (rotation <= MAX_SNAP_ANGLE)):
+					var moveBack: Vector2 = rayCast.get_collision_point() - rayStart
+					move_and_collide(moveBack)
+					lastCollision = rayCast.get_collision_point()
+					movement += moveBack
+					movement = movement.rotated(rotation)
+					velocity = velocity.rotated(rotation)
+					floorNormal = rayCast.get_collision_normal()
+					foundFloor = true
+			
+			if foundFloor == false:
+				pass
+			
+			grounded = foundFloor
+
+# Only call in _physics_process
+func floor_normal(collision_normal: Vector2, collision_point: Vector2, object: Object) -> Vector2:
+	var space_state: Physics2DDirectSpaceState = get_world_2d().get_direct_space_state()
+	var rayEnd: Vector2 = lastCollision + lastMovement
+	var rayStart: Vector2 = rayEnd + floorNormal
+	var rayCollision: Dictionary = space_state.intersect_ray(rayStart, rayEnd, [self])
+	return Vector2()
+
 func aggregate_floor_normals(floorNormal: Vector2) -> Vector2:
 	var aggregate := Vector2(floorNormal.x, floorNormal.y)
 	var original_direction: Vector2 = floorNormal * -1
@@ -59,16 +94,10 @@ func aggregate_floor_normals(floorNormal: Vector2) -> Vector2:
 		var rads: float = deg * PI / 180
 		var query_direction: Vector2 = original_direction.rotated(rads)
 		var testCollision: KinematicCollision2D = move_and_collide(query_direction, true, true, true)
-		if (tile_collision(testCollision)):
+		if (testCollision && (testCollision.get_collider() is tileMap)):
 			aggregate += testCollision.get_normal()
 		
 	return aggregate
-			
-func tile_collision(collision: KinematicCollision2D) -> bool:
-	return (
-		collision &&
-		(collision.get_collider() is tile)
-	)
 
 func get_new_velocity(delta: float) -> void:
 		var moveDir := Vector2()
