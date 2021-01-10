@@ -1,5 +1,8 @@
 extends RigidBody2D
 
+export var rotation_speed = PI
+var offset = 0
+
 const MOVE_FORCE: int = 100
 const JUMP_IMPULSE: int = 100
 const MASS: int = 1
@@ -60,3 +63,18 @@ func _physics_process(delta: float):
 			impulse += gravVec.normalized() * -1 * JUMP_IMPULSE
 		
 		apply_central_impulse(impulse)
+
+
+#func _on_Area2D_area_entered(area, delta: float):
+#	offset += 2 * PI * delta 
+#	offset = wrapf(offset, - PI , PI)
+#
+#	var new_pos = Vector2()
+#
+#	new_pos.x = cos(offset) * area.get_node("Area2d/CollisionShape2D").shape.radius.x
+#	new_pos.y = sin(offset) * area.get_node("Area2d/CollisionShape2D").shape.radius.y
+#
+#	area.get_node("Player").postion = area.get_node("Player").global_position  + new_pos
+	
+	
+	
