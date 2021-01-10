@@ -36,11 +36,12 @@ func _physics_process(delta: float) -> void:
 				var lastMovement: Vector2 = floor_normal_border_point(collision.position) - lastCollision
 				grounded = false
 				movement += query_floor(lastMovement)
-		elif grounded:
-			grounded = false
+		else:
 			var lastMovement: Vector2 = movement
 			movement = Vector2()
-			movement += query_floor(lastMovement)
+			if grounded:
+				grounded = false
+				movement += query_floor(lastMovement)
 
 func query_floor(lastMovement: Vector2) -> Vector2:
 	var movement := Vector2()
@@ -133,8 +134,20 @@ func get_new_velocity(delta: float) -> void:
 		if Input.is_action_pressed("move_up"):
 			moveDir.y -= 1
 		
+		var rotateX: float = Vector2.DOWN.angle_to(floorNormal)
+		if (rotateX > PI/2):
+				rotateX = (PI/2) - rotateX
+				
+		var rotateY: float = Vector2.RIGHT.angle_to(floorNormal)
+		if (rotateY > PI/2):
+				rotateY = (PI/2) - rotateX
+		
 		var moveTransform: Vector2 = floorNormal.rotated(PI/2).abs()
-		velocity += moveDir * moveTransform * MAX_ACCELERATION * delta
+		var velocityX: Vector2 = Vector2(moveDir.x, 0) * moveTransform * MAX_ACCELERATION * delta
+		velocityX = velocityX.rotated(rotateX)
+		var velocityY: Vector2 = Vector2(0, moveDir.y) * moveTransform * MAX_ACCELERATION * delta
+		velocityY = velocityY.rotated(rotateY)
+		velocity += velocityX + velocityY
 			
 		if Input.is_action_just_pressed("jump"):
 			grounded = false
