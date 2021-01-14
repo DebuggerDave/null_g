@@ -103,33 +103,21 @@ func move_dir(turnTowards: Vector2 = velocity) -> Vector2:
 	else:
 		return Vector2()
 
-func line_intersection(direction1: Vector2, point1: Vector2, direction2: Vector2, point2: Vector2) -> Vector2:
-	var intersection := Vector2()
+func line_intersection(dir1: Vector2, point1: Vector2, dir2: Vector2, point2: Vector2) -> Vector2:
+	var planeNormal2D1: Vector2 = dir1.rotated(TAU/4)
+	var plane1 := Plane(Vector3(planeNormal2D1.x, planeNormal2D1.y, 0), planeNormal2D1.dot(point1))
 	
-	if (infinite_slope(direction1) && infinite_slope(direction2)):
-		intersection = Vector2.INF
-	elif (infinite_slope(direction1) && (not infinite_slope(direction2))):
-		var slope2: float = direction2.y / direction2.x
-		var intercept2: float = point2.y - (slope2 * point2.x)
-		intersection.x = point1.x
-		intersection.y = (intersection.x * slope2) + intercept2
-	elif ((not infinite_slope(direction1)) && infinite_slope(direction2)):
-		var slope1: float = direction1.y / direction1.x
-		var intercept1: float = point1.y - (slope1 * point1.x)
-		intersection.x = point2.x
-		intersection.y = (intersection.x * slope1) + intercept1
+	var planeNormal2D2: Vector2 = dir2.rotated(TAU/4)
+	var plane2 := Plane(Vector3(planeNormal2D2.x, planeNormal2D2.y, 0), planeNormal2D2.dot(point2))
+	
+	var frustum := Plane(Vector3(0, 0, 1), 0)
+	
+	var intersection = frustum.intersect_3(plane1, plane2)
+	if (intersection != null):
+		intersection = intersection as Vector3
+		return Vector2(intersection.x, intersection.y)
 	else:
-		var slope1: float = direction1.y / direction1.x
-		var slope2: float = direction2.y / direction2.x
-		var intercept1: float = point1.y - (slope1 * point1.x)
-		var intercept2: float = point2.y - (slope2 * point2.x)
-		if (slope1 == slope2):
-			intersection = Vector2.INF
-		else:
-			intersection.x = (intercept2 - intercept1) / (slope1 - slope2)
-			intersection.y = (intersection.x * slope1) + intercept1
-	
-	return intersection
+		return Vector2.INF
 
 func infinite_slope(slope: Vector2) -> bool:
 	return slope.is_equal_approx(Vector2(0, slope.y))
