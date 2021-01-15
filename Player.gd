@@ -3,13 +3,15 @@ extends KinematicBody2D
 const ACCELERATION: int = 1000
 const MAX_SPEED: int = 10000
 const JUMP_DISTANCE: int = 10
-const MAX_SNAP_ANGLE: float = TAU / 8 
+const MAX_SNAP_ANGLE: float = TAU / 8
 
 var tileMap := preload("res://TileMap.gd")
 var grounded := false
 var floorNormal := Vector2()
 var velocity := Vector2(0, 100)
 var lastCollision := Vector2()
+var moveKeyHeld := false
+var relativeMoveNormal := Vector2()
 
 # TODO debug line, remove later
 onready var line = get_node("DEBUG_LINE")
@@ -139,15 +141,28 @@ func aggregate_floor_normals() -> Vector2:
 
 func get_new_velocity(delta: float) -> void:
 		var moveDir := Vector2()
+		moveKeyHeld = false
 		
 		if Input.is_action_pressed("move_right"):
 			moveDir.x += 1
+			moveKeyHeld = true
 		if Input.is_action_pressed("move_left"):
 			moveDir.x -= 1
+			moveKeyHeld = true
 		if Input.is_action_pressed("move_down"):
 			moveDir.y += 1
+			moveKeyHeld = true
 		if Input.is_action_pressed("move_up"):
 			moveDir.y -= 1
+			moveKeyHeld = true
+			
+		if (not moveKeyHeld):
+			relativeMoveNormal = Vector2()
+		elif (relativeMoveNormal.is_equal_approx(Vector2())):
+			relativeMoveNormal = floorNormal
+		else:
+			var radsFromRelativeNormal: float = relativeMoveNormal.angle_to(floorNormal)
+			moveDir = moveDir.rotated(radsFromRelativeNormal)
 
 		if ((not moveDir.is_equal_approx(Vector2(0, 0))) && (floorNormal.angle_to(moveDir) != 0)):
 			var delta_velocity: float = ACCELERATION * delta
