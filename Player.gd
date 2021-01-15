@@ -1,8 +1,8 @@
 extends KinematicBody2D
 
-const ACCELERATION: int = 1000
+const MOVE_ACCELERATION: int = 1000
 const MAX_SPEED: int = 10000
-const JUMP_DISTANCE: int = 10
+const JUMP_ACCERATION: int = 1000
 const MAX_SNAP_ANGLE: float = TAU / 8
 
 var tileMap := preload("res://TileMap.gd")
@@ -12,6 +12,7 @@ var velocity := Vector2(0, 100)
 var lastCollision := Vector2()
 var moveKeyHeld := false
 var relativeMoveNormal := Vector2()
+var jumpBuildTime: float = 0
 
 # TODO debug line, remove later
 onready var line = get_node("DEBUG_LINE")
@@ -40,13 +41,11 @@ func _physics_process(delta: float) -> void:
 				
 			if (lastCollision != centered_floor_contact_point(collision.position)):
 				var lastMovement: Vector2 = centered_floor_contact_point(collision.position) - lastCollision
-				grounded = false
 				movement += query_floor(lastMovement)
 		else:
 			var lastMovement: Vector2 = movement
 			movement = Vector2()
 			if grounded:
-				grounded = false
 				movement += query_floor(lastMovement)
 
 func query_floor(lastMovement: Vector2) -> Vector2:
@@ -60,8 +59,7 @@ func query_floor(lastMovement: Vector2) -> Vector2:
 	if (
 		(not result.empty()) &&
 		(result["collider"] is tileMap) &&
-		floorNormal.is_equal_approx(result["normal"]) &&
-		(not grounded)
+		floorNormal.is_equal_approx(result["normal"])
 	):
 		lastCollision = result["position"]
 		floorNormal = result["normal"]
@@ -72,7 +70,7 @@ func query_floor(lastMovement: Vector2) -> Vector2:
 	rayEnd = lastCollision + errorMargin
 	rayStart = lastCollision + lastMovement
 	result = space_state.intersect_ray(rayStart, rayEnd, [self])
-	if ((not result.empty()) && (not grounded)):
+	if (not result.empty()):
 		var rads: float = floorNormal.angle_to(result["normal"])
 		if ((abs(rads) <= MAX_SNAP_ANGLE) && (result["collider"] is tileMap)):
 			# Correct collision position for added errorMargin
@@ -95,7 +93,12 @@ func query_floor(lastMovement: Vector2) -> Vector2:
 			grounded = true
 			return movement
 			
+	ungrounded()
 	return Vector2()
+
+func ungrounded() -> void:
+	grounded = false
+	relativeMoveNormal = Vector2()
 
 func move_dir(turnTowards: Vector2 = velocity) -> Vector2:
 	if (floorNormal.angle_to(turnTowards) > 0):
@@ -165,10 +168,14 @@ func get_new_velocity(delta: float) -> void:
 			moveDir = moveDir.rotated(radsFromRelativeNormal)
 
 		if ((not moveDir.is_equal_approx(Vector2(0, 0))) && (floorNormal.angle_to(moveDir) != 0)):
-			var delta_velocity: float = ACCELERATION * delta
+			var delta_velocity: float = MOVE_ACCELERATION * delta
 			var scale := Transform2D(Vector2((move_dir(moveDir).abs().x * delta_velocity), 0), Vector2(0, (move_dir(moveDir).abs().y * delta_velocity)), Vector2())
 			velocity += (scale * moveDir).project(move_dir(moveDir))
 			
 		if Input.is_action_just_pressed("jump"):
-			grounded = false
-			velocity += aggregate_floor_normals() * JUMP_DISTANCE / delta
+			jumpBuildTime = 0
+		elif Input.is_action_pressed("jump"):
+			jumpBuildTime += delta
+		elif Input.is_action_just_released("jump"):
+			ungrounded()
+			velocity += aggregate_floor_normals() * JUMP_ACCERATION * jumpBuildTime
