@@ -1,0 +1,253 @@
+{ "frames": {
+   "spaceman10x #idle.ase": {
+    "frame": { "x": 0, "y": 0, "w": 140, "h": 150 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 10, "w": 140, "h": 150 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 500
+   },
+   "spaceman10x #idle_jump.ase": {
+    "frame": { "x": 0, "y": 150, "w": 140, "h": 150 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 10, "w": 140, "h": 150 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 500
+   },
+   "spaceman10x #damage.ase": {
+    "frame": { "x": 0, "y": 300, "w": 140, "h": 150 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 10, "w": 140, "h": 150 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 500
+   },
+   "spaceman10x #booster 0.ase": {
+    "frame": { "x": 0, "y": 450, "w": 140, "h": 150 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 10, "w": 140, "h": 150 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 250
+   },
+   "spaceman10x #booster 1.ase": {
+    "frame": { "x": 140, "y": 450, "w": 140, "h": 150 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 10, "w": 140, "h": 150 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 250
+   },
+   "spaceman10x #booster 2.ase": {
+    "frame": { "x": 280, "y": 450, "w": 140, "h": 150 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 10, "w": 140, "h": 150 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 250
+   },
+   "spaceman10x #booster 3.ase": {
+    "frame": { "x": 420, "y": 450, "w": 140, "h": 150 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 10, "w": 140, "h": 150 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 250
+   },
+   "spaceman10x #jump 0.ase": {
+    "frame": { "x": 0, "y": 600, "w": 140, "h": 150 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 10, "w": 140, "h": 150 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 600
+   },
+   "spaceman10x #jump 1.ase": {
+    "frame": { "x": 140, "y": 600, "w": 140, "h": 150 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 10, "w": 140, "h": 150 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 600
+   },
+   "spaceman10x #jump 2.ase": {
+    "frame": { "x": 280, "y": 600, "w": 140, "h": 150 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 10, "w": 140, "h": 150 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 600
+   },
+   "spaceman10x #jump 3.ase": {
+    "frame": { "x": 420, "y": 600, "w": 140, "h": 150 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 10, "w": 140, "h": 150 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 600
+   },
+   "spaceman10x #run 0.ase": {
+    "frame": { "x": 0, "y": 750, "w": 140, "h": 150 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 10, "w": 140, "h": 150 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 200
+   },
+   "spaceman10x #run 1.ase": {
+    "frame": { "x": 140, "y": 750, "w": 140, "h": 150 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 10, "w": 140, "h": 150 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 200
+   },
+   "spaceman10x #run 2.ase": {
+    "frame": { "x": 280, "y": 750, "w": 140, "h": 150 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 10, "w": 140, "h": 150 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 200
+   },
+   "spaceman10x #run 3.ase": {
+    "frame": { "x": 420, "y": 750, "w": 140, "h": 150 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 10, "w": 140, "h": 150 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 200
+   },
+   "spaceman10x #head_fall 0.ase": {
+    "frame": { "x": 0, "y": 900, "w": 140, "h": 150 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 10, "w": 140, "h": 150 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 300
+   },
+   "spaceman10x #head_fall 1.ase": {
+    "frame": { "x": 140, "y": 900, "w": 140, "h": 150 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 10, "w": 140, "h": 150 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 300
+   },
+   "spaceman10x #head_fall 2.ase": {
+    "frame": { "x": 280, "y": 900, "w": 140, "h": 150 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 10, "w": 140, "h": 150 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 300
+   },
+   "spaceman10x #face_fall 0.ase": {
+    "frame": { "x": 0, "y": 1050, "w": 140, "h": 150 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 10, "w": 140, "h": 150 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 200
+   },
+   "spaceman10x #face_fall 1.ase": {
+    "frame": { "x": 140, "y": 1050, "w": 140, "h": 150 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 10, "w": 140, "h": 150 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 200
+   },
+   "spaceman10x #face_fall 2.ase": {
+    "frame": { "x": 280, "y": 1050, "w": 140, "h": 150 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 10, "w": 140, "h": 150 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 200
+   },
+   "spaceman10x #fall_back 0.ase": {
+    "frame": { "x": 0, "y": 1200, "w": 140, "h": 150 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 10, "w": 140, "h": 150 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 200
+   },
+   "spaceman10x #fall_back 1.ase": {
+    "frame": { "x": 140, "y": 1200, "w": 140, "h": 150 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 10, "w": 140, "h": 150 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 200
+   },
+   "spaceman10x #fall_back 2.ase": {
+    "frame": { "x": 280, "y": 1200, "w": 140, "h": 150 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 10, "w": 140, "h": 150 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 200
+   },
+   "spaceman10x #idle_fall.ase": {
+    "frame": { "x": 0, "y": 1350, "w": 140, "h": 150 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 10, "w": 140, "h": 150 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 200
+   },
+   "spaceman10x #get_up 0.ase": {
+    "frame": { "x": 0, "y": 1500, "w": 140, "h": 150 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 10, "w": 140, "h": 150 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 200
+   },
+   "spaceman10x #get_up 1.ase": {
+    "frame": { "x": 140, "y": 1500, "w": 140, "h": 150 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 10, "w": 140, "h": 150 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 200
+   },
+   "spaceman10x #get_up 2.ase": {
+    "frame": { "x": 280, "y": 1500, "w": 140, "h": 150 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 10, "w": 140, "h": 150 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 200
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.25-x64",
+  "image": "spaceman10x.png",
+  "format": "I8",
+  "size": { "w": 560, "h": 1650 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "idle", "from": 0, "to": 0, "direction": "forward" },
+   { "name": "idle_jump", "from": 1, "to": 1, "direction": "forward" },
+   { "name": "damage", "from": 2, "to": 2, "direction": "forward" },
+   { "name": "booster", "from": 3, "to": 6, "direction": "forward" },
+   { "name": "jump", "from": 7, "to": 10, "direction": "forward" },
+   { "name": "run", "from": 11, "to": 14, "direction": "forward" },
+   { "name": "head_fall", "from": 15, "to": 17, "direction": "forward" },
+   { "name": "face_fall", "from": 18, "to": 20, "direction": "forward" },
+   { "name": "fall_back", "from": 21, "to": 23, "direction": "forward" },
+   { "name": "idle_fall", "from": 24, "to": 24, "direction": "forward" },
+   { "name": "get_up", "from": 25, "to": 27, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer 1", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

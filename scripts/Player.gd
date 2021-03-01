@@ -5,7 +5,7 @@ const MAX_SPEED: int = 10000
 const JUMP_ACCERATION: int = 1000
 const MAX_SNAP_ANGLE: float = TAU / 8
 
-var tileMap := preload("res://TileMap.gd")
+var tileMap := preload("res://scripts//TileMap.gd")
 var grounded := false
 var floorNormal := Vector2()
 var velocity := Vector2(0, 100)
@@ -123,9 +123,6 @@ func line_intersection(dir1: Vector2, point1: Vector2, dir2: Vector2, point2: Ve
 		return Vector2(intersection.x, intersection.y)
 	else:
 		return Vector2.INF
-
-func infinite_slope(slope: Vector2) -> bool:
-	return slope.is_equal_approx(Vector2(0, slope.y))
 
 func centered_floor_contact_point(borderPoint: Vector2) -> Vector2:
 	return line_intersection(floorNormal.rotated(TAU/4), borderPoint, floorNormal, get_position())

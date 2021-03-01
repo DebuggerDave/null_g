@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Space.png-3f562897bcc88a85d2593ffbfd5b5554.stex"
+path="res://.import/spaceman10x.png-bfe2a447d79b23bf1cfdfd3272c55671.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Space.png"
-dest_files=[ "res://.import/Space.png-3f562897bcc88a85d2593ffbfd5b5554.stex" ]
+source_file="res://img/spaceman10x.png"
+dest_files=[ "res://.import/spaceman10x.png-bfe2a447d79b23bf1cfdfd3272c55671.stex" ]
 
 [params]
 
