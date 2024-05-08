@@ -7,11 +7,11 @@ Use momentum and trajectories to traverse the environment
 ![Screenshot](img/screenshot.png)
 
 ## Controls
-W - move up
-A - move right
-S - move down
-D - move right
-SPACE - jump
+* W - move up
+* A - move right
+* S - move down
+* D - move right
+* SPACE - jump
 
 ## Notes
 * Hold and release space to jump harder
